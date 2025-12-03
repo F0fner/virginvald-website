@@ -3,32 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VirginVald • Stats</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <title>VirginVald Project</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <meta name="color-scheme" content="dark">
-    <meta name="description" content="Player distribution pie and activity chart.">
 </head>
 <body>
-    <!-- Rotating mushroom in bottom-left corner -->
-    <div class="mushroom-spinner">
-        <img src="avatars/red_mushroom.png" alt="mushroom">
-    </div>
+    <nav class="sidebar">
+        <div class="logo">
+            <h1>VirginVald</h1>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active" data-section="participants">
+                <span class="nav-icon">👥</span>
+                <span class="nav-text">Участники</span>
+            </li>
+            <li class="nav-item" data-section="builds">
+                <span class="nav-icon">🔧</span>
+                <span class="nav-text">Сборки</span>
+            </li>
+            <li class="nav-item" data-section="gallery">
+                <span class="nav-icon">🖼️</span>
+                <span class="nav-text">Галлерея</span>
+            </li>
+            <li class="nav-item" data-section="activity">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Активность</span>
+            </li>
+            <li class="nav-item" data-section="links">
+                <span class="nav-icon">🔗</span>
+                <span class="nav-text">Ссылки</span>
+            </li>
+        </ul>
+    </nav>
 
-    <main class="wrap">
-        <header class="brand">VirginVald</header>
-        <section class="charts">
-            <div class="card pie">
-                <canvas id="pieChart"></canvas>
+    <main class="content">
+        <!-- Участники Section -->
+        <section id="participants" class="section active">
+            <h2>Участники общины VirginVal'd</h2>
+            <div class="participant-count">Всего участников: 34</div>
+            <div class="participants-grid">
+                <a href="https://ru.namemc.com/profile/Gokig.1" target="_blank" class="participant-card founder">
+                    <img src="heads/Gokig.png" alt="Gokig" class="participant-avatar">
+                    <span class="participant-name">Gokig</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/F0fner.1" target="_blank" class="participant-card founder">
+                    <img src="heads/F0fner.png" alt="F0fner" class="participant-avatar">
+                    <span class="participant-name">F0fner</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/Jelly_Flash.1" target="_blank" class="participant-card founder">
+                    <img src="heads/Jelly_Flash.png" alt="Jelly_Flash" class="participant-avatar">
+                    <span class="participant-name">Jelly_Flash</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/Kqster1.1" target="_blank" class="participant-card founder">
+                    <img src="heads/Kqster1.png" alt="Kqster1" class="participant-avatar">
+                    <span class="participant-name">Kqster1</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/Melissa.1" target="_blank" class="participant-card">
+                    <img src="heads/Melissa.png" alt="Melissa" class="participant-avatar">
+                    <span class="participant-name">Melissa</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/_Quaker3.1" target="_blank" class="participant-card">
+                    <img src="heads/_Quaker3.png" alt="_Quaker3" class="participant-avatar">
+                    <span class="participant-name">_Quaker3</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/AlexFirst.1" target="_blank" class="participant-card">
+                    <img src="heads/AlexFirst.png" alt="AlexFirst" class="participant-avatar">
+                    <span class="participant-name">AlexFirst</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/AlexPak77.1" target="_blank" class="participant-card">
+                    <img src="heads/AlexPak77.png" alt="AlexPak77" class="participant-avatar">
+                    <span class="participant-name">AlexPak77</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/Ayxaaaa.1" target="_blank" class="participant-card">
+                    <img src="heads/Ayxaaaa.png" alt="Ayxaaaa" class="participant-avatar">
+                    <span class="participant-name">Ayxaaaa</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/B_65.1" target="_blank" class="participant-card">
+                    <img src="heads/B_65.png" alt="B_65" class="participant-avatar">
+                    <span class="participant-name">B_65</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/Bel04ka01.1" target="_blank" class="participant-card">
+                    <img src="heads/Bel04ka01.png" alt="Bel04ka01" class="participant-avatar">
+                    <span class="participant-name">Bel04ka01</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/Celsius2424.1" target="_blank" class="participant-card">
+                    <img src="heads/Celsius2424.png" alt="Celsius2424" class="participant-avatar">
+                    <span class="participant-name">Celsius2424</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/cho_cho.1" target="_blank" class="participant-card">
+                    <img src="heads/cho_cho.png" alt="cho_cho" class="participant-avatar">
+                    <span class="participant-name">cho_cho</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/darfi1.1" target="_blank" class="participant-card">
+                    <img src="heads/darfi1.png" alt="darfi1" class="participant-avatar">
+                    <span class="participant-name">darfi1</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/didicox32.1" target="_blank" class="participant-card">
+                    <img src="heads/didicox32.png" alt="didicox32" class="participant-avatar">
+                    <span class="participant-name">didicox32</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/DRAGEN.1" target="_blank" class="participant-card">
+                    <img src="heads/DRAGEN.png" alt="DRAGEN" class="participant-avatar">
+                    <span class="participant-name">DRAGEN</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/E_X_I_X1.1" target="_blank" class="participant-card">
+                    <img src="heads/E_X_I_X1.png" alt="E_X_I_X1" class="participant-avatar">
+                    <span class="participant-name">E_X_I_X1</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/Harisson_71.1" target="_blank" class="participant-card">
+                    <img src="heads/Harisson_71.png" alt="Harisson_71" class="participant-avatar">
+                    <span class="participant-name">Harisson_71</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/HeLckoi.1" target="_blank" class="participant-card">
+                    <img src="heads/HeLckoi.png" alt="HeLckoi" class="participant-avatar">
+                    <span class="participant-name">HeLckoi</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/IceIsNicel.1" target="_blank" class="participant-card">
+                    <img src="heads/IceIsNicel.png" alt="IceIsNicel" class="participant-avatar">
+                    <span class="participant-name">IceIsNicel</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/K0kosixx.1" target="_blank" class="participant-card">
+                    <img src="heads/K0kosixx.png" alt="K0kosixx" class="participant-avatar">
+                    <span class="participant-name">K0kosixx</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/Kirallax.1" target="_blank" class="participant-card">
+                    <img src="heads/Kirallax.png" alt="Kirallax" class="participant-avatar">
+                    <span class="participant-name">Kirallax</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/LevisTk.1" target="_blank" class="participant-card">
+                    <img src="heads/LevisTk.png" alt="LevisTk" class="participant-avatar">
+                    <span class="participant-name">LevisTk</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/MoreFuun.1" target="_blank" class="participant-card">
+                    <img src="heads/MoreFuun.png" alt="MoreFuun" class="participant-avatar">
+                    <span class="participant-name">MoreFuun</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/N0kiaCross.1" target="_blank" class="participant-card">
+                    <img src="heads/N0kiaCross.png" alt="N0kiaCross" class="participant-avatar">
+                    <span class="participant-name">N0kiaCross</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/nyansheers.1" target="_blank" class="participant-card">
+                    <img src="heads/nyansheers.png" alt="nyansheers" class="participant-avatar">
+                    <span class="participant-name">nyansheers</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/PivoChelik.1" target="_blank" class="participant-card">
+                    <img src="heads/PivoChelik.png" alt="PivoChelik" class="participant-avatar">
+                    <span class="participant-name">PivoChelik</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/Polyshrrrrrrrr.1" target="_blank" class="participant-card">
+                    <img src="heads/Polyshrrrrrrrr.png" alt="Polyshrrrrrrrr" class="participant-avatar">
+                    <span class="participant-name">Polyshrrrrrrrr</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/RedmiRoma.1" target="_blank" class="participant-card">
+                    <img src="heads/RedmiRoma.png" alt="RedmiRoma" class="participant-avatar">
+                    <span class="participant-name">RedmiRoma</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/shushut.1" target="_blank" class="participant-card">
+                    <img src="heads/shushut.png" alt="shushut" class="participant-avatar">
+                    <span class="participant-name">shushut</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/Tw1sTix.1" target="_blank" class="participant-card">
+                    <img src="heads/Tw1sTix.png" alt="Tw1sTix" class="participant-avatar">
+                    <span class="participant-name">Tw1sTix</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/unlistedhub.1" target="_blank" class="participant-card">
+                    <img src="heads/unlistedhub.png" alt="unlistedhub" class="participant-avatar">
+                    <span class="participant-name">unlistedhub</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/vv1stt.1" target="_blank" class="participant-card">
+                    <img src="heads/vv1stt.png" alt="vv1stt" class="participant-avatar">
+                    <span class="participant-name">vv1stt</span>
+                </a>
+                <a href="https://ru.namemc.com/profile/vvov.1" target="_blank" class="participant-card">
+                    <img src="heads/vvov.png" alt="vvov" class="participant-avatar">
+                    <span class="participant-name">vvov</span>
+                </a>
             </div>
-            <div class="card line">
-                <canvas id="activityChart"></canvas>
+        </section>
+
+        <!-- Сборки Section -->
+        <section id="builds" class="section">
+            <h2>Сборки и модификации</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>VirginVal'd Modpack v3.2</h3>
+                        <span class="date">03.12.2025</span>
+                        <p>Новая сборка модов: оптимизация производительности, шейдеры, 150+ модов для улучшения геймплея</p>
+                        <button class="btn-download">Скачать</button>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Текстур-пак "VirginStyle"</h3>
+                        <span class="date">28.11.2025</span>
+                        <p>Кастомный ресурс-пак разработанный участниками общины. Разрешение 32x32</p>
+                        <button class="btn-download">Скачать</button>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>OptiFine HD U I6</h3>
+                        <span class="date">15.11.2025</span>
+                        <p>Оптимизация для лучшей производительности на WindMC</p>
+                        <button class="btn-download">Скачать</button>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Карта общины v1.0</h3>
+                        <span class="date">01.10.2025</span>
+                        <p>Карта мира VirginVal'd для одиночной игры. Включает все постройки</p>
+                        <button class="btn-download">Скачать</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Галлерея Section -->
+        <section id="gallery" class="section">
+            <h2>Галлерея</h2>
+            <div class="carousel-container">
+                <button class="carousel-btn carousel-btn-prev">‹</button>
+                <div class="carousel-track">
+                    <div class="carousel-slide"><img src="Gallery/image.png" alt="Gallery 1"></div>
+                    <div class="carousel-slide"><img src="Gallery/image1.png" alt="Gallery 2"></div>
+                    <div class="carousel-slide"><img src="Gallery/imag2e.png" alt="Gallery 3"></div>
+                    <div class="carousel-slide"><img src="Gallery/imag3e.png" alt="Gallery 4"></div>
+                    <div class="carousel-slide"><img src="Gallery/image4.png" alt="Gallery 5"></div>
+                    <div class="carousel-slide"><img src="Gallery/ima4ge.png" alt="Gallery 6"></div>
+                    <div class="carousel-slide"><img src="Gallery/76hRGW1.png" alt="Gallery 7"></div>
+                    <div class="carousel-slide"><img src="Gallery/mDWcLC8.png" alt="Gallery 8"></div>
+                    <div class="carousel-slide"><img src="Gallery/WA7b6Cf.png" alt="Gallery 9"></div>
+                </div>
+                <button class="carousel-btn carousel-btn-next">›</button>
+            </div>
+            <div class="carousel-indicators"></div>
+        </section>
+
+        <!-- Активность Section -->
+        <section id="activity" class="section">
+            <h2>Активность</h2>
+            <div class="activity-feed">
+                <div class="activity-item">
+                    <div class="activity-icon">🎮</div>
+                    <div class="activity-content">
+                        <h4>Новый участник присоединился</h4>
+                        <p>vvov вступил в общину VirginVal'd</p>
+                        <span class="time">2 часа назад</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🏗️</div>
+                    <div class="activity-content">
+                        <h4>Завершено строительство</h4>
+                        <p>Gokig и F0fner построили новую базу</p>
+                        <span class="time">5 часов назад</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">⚔️</div>
+                    <div class="activity-content">
+                        <h4>PvP событие</h4>
+                        <p>Tw1sTix победил в турнире арены</p>
+                        <span class="time">1 день назад</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🎨</div>
+                    <div class="activity-content">
+                        <h4>Обновление сайта</h4>
+                        <p>Добавлена галерея и новые функции</p>
+                        <span class="time">2 дня назад</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🎉</div>
+                    <div class="activity-content">
+                        <h4>Достижение разблокировано</h4>
+                        <p>Община достигла 34 участников!</p>
+                        <span class="time">3 дня назад</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">📺</div>
+                    <div class="activity-content">
+                        <h4>Новое видео на YouTube</h4>
+                        <p>Jelly_Flash выложил обзор сервера</p>
+                        <span class="time">4 дня назад</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🔨</div>
+                    <div class="activity-content">
+                        <h4>Крафт легендарного предмета</h4>
+                        <p>DRAGEN создал незеритовую броню</p>
+                        <span class="time">5 дней назад</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ссылки Section -->
+        <section id="links" class="section">
+            <h2>Полезные ссылки</h2>
+            <div class="links-grid">
+                <a href="https://discord.gg/zD6RWbet2j" target="_blank" class="link-card">
+                    <div class="link-icon">💬</div>
+                    <h3>Discord</h3>
+                    <p>Присоединяйтесь к нашему Discord серверу</p>
+                </a>
+                <a href="https://www.youtube.com/@Vigrinvald" target="_blank" class="link-card">
+                    <div class="link-icon">📺</div>
+                    <h3>YouTube</h3>
+                    <p>Смотрите наши видео и стримы</p>
+                </a>
+                <a href="https://windmc.ru" target="_blank" class="link-card">
+                    <div class="link-icon">🌐</div>
+                    <h3>WindMC</h3>
+                    <p>Наш сервер Minecraft</p>
+                </a>
+                <a href="https://ru.namemc.com" target="_blank" class="link-card">
+                    <div class="link-icon">👤</div>
+                    <h3>NameMC</h3>
+                    <p>Профили участников</p>
+                </a>
             </div>
         </section>
     </main>
 
-    <script src="chart-init.js"></script>
-    <script src="site-effects.js"></script>
+    <!-- Rotating mushroom -->
+    <div class="mushroom-spinner">
+        <img src="red_mushroom.png" alt="Mushroom">
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
