@@ -311,4 +311,335 @@ document.addEventListener('DOMContentLoaded', () => {
     // Console welcome message
     console.log('%c🎉 VirginVald Project', 'color: #dc2626; font-size: 24px; font-weight: bold;');
     console.log('%cWelcome to the interactive dashboard!', 'color: #a3a3a3; font-size: 14px;');
+    
+    // Impact Table Functionality
+    loadImpactTable();
+    loadImpactBars();
 });
+
+// Impact Table Functions
+async function loadImpactTable() {
+    try {
+        const response = await fetch('table_data.json');
+        const data = await response.json();
+        
+        renderImpactTable(data);
+        setupImpactControls(data);
+    } catch (error) {
+        console.error('Error loading table data:', error);
+        document.getElementById('impact-tbody').innerHTML = 
+            '<tr><td colspan="100" style="text-align: center; color: var(--accent-red);">Ошибка загрузки данных</td></tr>';
+    }
+}
+
+function renderImpactTable(data) {
+    const thead = document.querySelector('.impact-table thead tr');
+    const tbody = document.getElementById('impact-tbody');
+    
+    // Clear existing content
+    thead.innerHTML = '<th class="sticky-col">Игрок</th>';
+    tbody.innerHTML = '';
+    
+    // Add column headers
+    data.columns.forEach(col => {
+        const th = document.createElement('th');
+        th.textContent = col;
+        thead.appendChild(th);
+    });
+    
+    // Add total column
+    const totalTh = document.createElement('th');
+    totalTh.textContent = 'Итого';
+    totalTh.style.textAlign = 'center';
+    thead.appendChild(totalTh);
+    
+    // Calculate totals and prepare rows
+    const players = [];
+    for (const [playerName, playerScores] of Object.entries(data.scores)) {
+        let total = 0;
+        const scores = {};
+        
+        data.columns.forEach(col => {
+            const score = playerScores[col] || 0;
+            scores[col] = score;
+            total += score;
+        });
+        
+        players.push({ name: playerName, scores, total });
+    }
+    
+    // Sort by total (descending)
+    players.sort((a, b) => b.total - a.total);
+    
+    // Render rows
+    players.forEach((player, rowIdx) => {
+        const tr = document.createElement('tr');
+        tr.setAttribute('data-player-name', player.name.toLowerCase());
+        tr.setAttribute('data-total', player.total);
+
+        // Player name column
+        const nameTd = document.createElement('td');
+        nameTd.className = 'sticky-col';
+        nameTd.textContent = player.name;
+        tr.appendChild(nameTd);
+
+        // Score columns
+        data.columns.forEach((col, colIdx) => {
+            const td = document.createElement('td');
+            td.className = 'score-cell score-animate';
+            const score = player.scores[col];
+
+            if (score > 0) {
+                td.textContent = score;
+                // Color coding based on score value
+                if (score >= 150) {
+                    td.classList.add('score-high');
+                } else if (score >= 80) {
+                    td.classList.add('score-medium');
+                } else {
+                    td.classList.add('score-low');
+                }
+            } else {
+                td.textContent = '-';
+                td.classList.add('empty');
+            }
+            tr.appendChild(td);
+        });
+
+        // Total column
+        const totalTd = document.createElement('td');
+        totalTd.className = 'total-col score-animate';
+        totalTd.textContent = player.total;
+        tr.appendChild(totalTd);
+
+        tbody.appendChild(tr);
+    });
+
+    // Animate numbers left-to-right with stagger (start after 1.5s delay)
+    setTimeout(() => {
+        const cells = Array.from(tbody.querySelectorAll('.score-animate'));
+        cells.forEach((cell, i) => {
+            setTimeout(() => {
+                cell.classList.add('visible');
+            }, i * 40);
+        });
+    }, 1000);
+}
+
+function setupImpactControls(data) {
+    const searchInput = document.getElementById('player-search');
+    const sortButtons = document.querySelectorAll('.sort-btn');
+    
+    // Search functionality
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const rows = document.querySelectorAll('#impact-tbody tr');
+        
+        rows.forEach(row => {
+            const playerName = row.getAttribute('data-player-name');
+            if (playerName.includes(searchTerm)) {
+                row.classList.remove('hidden');
+            } else {
+                row.classList.add('hidden');
+            }
+        });
+    });
+    
+    // Sort functionality
+    sortButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active button
+            sortButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const sortType = btn.getAttribute('data-sort');
+            const tbody = document.getElementById('impact-tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            if (sortType === 'total') {
+                // Sort by total score (descending)
+                rows.sort((a, b) => {
+                    const totalA = parseInt(a.getAttribute('data-total'));
+                    const totalB = parseInt(b.getAttribute('data-total'));
+                    return totalB - totalA;
+                });
+            } else if (sortType === 'name') {
+                // Sort alphabetically
+                rows.sort((a, b) => {
+                    const nameA = a.getAttribute('data-player-name');
+                    const nameB = b.getAttribute('data-player-name');
+                    return nameA.localeCompare(nameB);
+                });
+            }
+            
+            // Re-append rows in new order
+            rows.forEach(row => tbody.appendChild(row));
+        });
+    });
+}
+
+// Impact 2.0 Progress Bars Functions
+async function loadImpactBars() {
+    try {
+        const response = await fetch('table_data.json');
+        const data = await response.json();
+        
+        renderImpactBars(data);
+    } catch (error) {
+        console.error('Error loading table data for bars:', error);
+        document.getElementById('impact-bars-container').innerHTML = 
+            '<div style="text-align: center; color: var(--accent-red); padding: 2rem;">Ошибка загрузки данных</div>';
+    }
+}
+
+function renderImpactBars(data) {
+    const container = document.getElementById('impact-bars-container');
+    container.innerHTML = '';
+    
+    // Create global tooltip element
+    let tooltip = document.getElementById('global-tooltip');
+    if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'global-tooltip';
+        tooltip.className = 'segment-tooltip';
+        document.body.appendChild(tooltip);
+    }
+    
+    // Calculate totals and prepare players data
+    const players = [];
+    
+    for (const [playerName, playerScores] of Object.entries(data.scores)) {
+        // Skip Mayors (benchmark player)
+        if (playerName === 'Mayors') continue;
+        
+        let total = 0;
+        const scores = {};
+        
+        data.columns.forEach(col => {
+            const score = playerScores[col] || 0;
+            scores[col] = score;
+            total += score;
+        });
+        
+        players.push({ name: playerName, scores, total });
+    }
+    
+    // Sort by total (descending)
+    players.sort((a, b) => b.total - a.total);
+    
+    // Find max total (leader's total score) for scaling
+    const maxTotal = players.length > 0 ? players[0].total : 1;
+    
+    // Render compact progress bars for each player
+    players.forEach(player => {
+        const item = document.createElement('div');
+        item.className = 'player-progress-item';
+        item.setAttribute('data-player-name', player.name.toLowerCase());
+        item.setAttribute('data-total', player.total);
+        
+        // Info section (name + total)
+        const info = document.createElement('div');
+        info.className = 'player-progress-info';
+        
+        const nameEl = document.createElement('div');
+        nameEl.className = 'player-progress-name';
+        nameEl.textContent = player.name;
+        
+        const totalEl = document.createElement('div');
+        totalEl.className = 'player-progress-total';
+        totalEl.textContent = player.total;
+        
+        info.appendChild(nameEl);
+        info.appendChild(totalEl);
+        
+        // Stacked progress bar
+        const stackedBar = document.createElement('div');
+        stackedBar.className = 'stacked-progress-bar';
+        
+        const track = document.createElement('div');
+        track.className = 'progress-bar-track';
+        
+        // Create segments for each column
+        data.columns.forEach((col, index) => {
+            const score = player.scores[col];
+            
+            if (score > 0) {
+                const segment = document.createElement('div');
+                segment.className = 'progress-segment';
+                
+                // Add color class based on score value
+                if (score < 50) {
+                    segment.classList.add('score-very-low');
+                } else if (score < 80) {
+                    segment.classList.add('score-low');
+                } else if (score < 120) {
+                    segment.classList.add('score-medium');
+                } else if (score < 160) {
+                    segment.classList.add('score-high');
+                } else {
+                    segment.classList.add('score-very-high');
+                }
+                
+                // Calculate width as percentage of leader's total
+                // This ensures the leader's bar fills ~90% of container width
+                // and other players scale proportionally
+                const widthPercent = (score / maxTotal) * 90; // 90% max to leave some margin
+                segment.style.width = '0%'; // Start at 0 for animation
+                segment.style.flexShrink = '0';
+                
+                // Add tooltip event listeners
+                segment.addEventListener('mouseenter', (e) => {
+                    tooltip.innerHTML = `
+                        <div class="tooltip-label">${col}</div>
+                        <div class="tooltip-value">${score}</div>
+                    `;
+                    tooltip.classList.add('show');
+                    updateTooltipPosition(e);
+                });
+                
+                segment.addEventListener('mousemove', (e) => {
+                    updateTooltipPosition(e);
+                });
+                
+                segment.addEventListener('mouseleave', () => {
+                    tooltip.classList.remove('show');
+                });
+                
+                // Animate after delay
+                setTimeout(() => {
+                    segment.style.width = widthPercent + '%';
+                }, 100);
+                
+                track.appendChild(segment);
+            }
+        });
+        
+        stackedBar.appendChild(track);
+        
+        item.appendChild(info);
+        item.appendChild(stackedBar);
+        container.appendChild(item);
+    });
+}
+
+function updateTooltipPosition(e) {
+    const tooltip = document.getElementById('global-tooltip');
+    if (tooltip) {
+        tooltip.style.left = e.pageX + 'px';
+        tooltip.style.top = (e.pageY - 60) + 'px';
+    }
+}
+
+function getColumnColor(index) {
+    const colors = [
+        'linear-gradient(135deg, #dc2626, #ef4444)',
+        'linear-gradient(135deg, #d97706, #fbbf24)',
+        'linear-gradient(135deg, #059669, #10b981)',
+        'linear-gradient(135deg, #0284c7, #38bdf8)',
+        'linear-gradient(135deg, #7c3aed, #a78bfa)',
+        'linear-gradient(135deg, #db2777, #f472b6)',
+        'linear-gradient(135deg, #ea580c, #fb923c)'
+    ];
+    return colors[index % colors.length];
+}
+
